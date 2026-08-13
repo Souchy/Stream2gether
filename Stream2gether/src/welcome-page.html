@@ -1,0 +1,28 @@
+<h1>${message}</h1>
+
+<div class="app">
+
+  <button click.trigger="selectDevice()">Select device</button>
+  <div>
+    <h3>Local (You)</h3>
+    <video ref="localVideo" autoplay muted playsinline style="width: 300px;"></video>
+  </div>
+
+  <div>
+    <h3>Remote (Friend)</h3>
+    <video ref="remoteVideo" autoplay playsinline style="width: 300px;"></video>
+  </div>
+
+  <hr>
+
+  <div>
+    <button click.trigger="startHost()">1. Start as Host</button>
+    <button click.trigger="joinFriend()">2. Join Friend (Answer)</button>
+  </div>
+
+  <div>
+    <p>Connection Code:</p>
+    <textarea value.bind="connectionCode" rows="5" cols="40"></textarea>
+    <button click.trigger="copyCode()">Copy Code</button>
+  </div>
+</div>
