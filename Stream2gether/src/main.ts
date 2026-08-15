@@ -10,6 +10,8 @@ import { RoomStream } from './pages/room-page/room-stream/RoomStream';
 import { RoomMemberList } from './pages/room-page/room-members-list/RoomMemberList';
 import { Splitgrid } from './components/splitgrid/splitgrid';
 import { IdentifyView } from './pages/identify-view/IdentifyView';
+import { StreamSettings } from './pages/room-page/room-stream/stream-settings/StreamSettings';
+import { StreamSettingsService } from './core/services/StreamSettingsService';
 
 // Aurelia
 //   .register(RouterConfiguration)
@@ -68,7 +70,7 @@ async function startApp() {
   au.register(NotificationContainer, INotificationService)
   au.register(Splitgrid);
   au.register(IdentifyView);
-  au.register(RoomPage, RoomStream, RoomMemberList);
+  au.register(RoomPage, RoomMemberList, RoomMemberList, RoomStream, StreamSettings, StreamSettingsService);
 
 
   await au.app(MyApp).start();

@@ -1,0 +1,20 @@
+<template class="vertical surface">
+
+  <div class="horizontal">
+    <label>Width</label>
+    <input type="number" value.bind="service.width" />
+  </div>
+  <div class="horizontal">
+    <label>Height</label>
+    <input type="number" value.bind="service.height" />
+  </div>
+  <div class="horizontal">
+    <label>Frame rate</label>
+    <input type="number" value.bind="service.frameRate" />
+  </div>
+  <div class="horizontal">
+    <label>Audio</label>
+    <input type="checkbox" checked.bind="service.audio" />
+  </div>
+
+</template>

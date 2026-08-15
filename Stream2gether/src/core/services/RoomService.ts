@@ -1,5 +1,5 @@
 import { RealtimeChannel, RealtimePresenceState } from "@supabase/supabase-js";
-import { ILogger, resolve } from "aurelia";
+import { IEventAggregator, ILogger, resolve } from "aurelia";
 import { INotificationService } from "src/core/services/NotificationService";
 import { supabase } from "src/main";
 import { NameService } from "./NameService";
@@ -26,6 +26,7 @@ export class RoomSessionService {
 	private readonly notifications = resolve(INotificationService);
 	private readonly names = resolve(NameService);
 	private readonly router = resolve(IRouter);
+	private readonly ea = resolve(IEventAggregator);
 
 	private channel?: RealtimeChannel;
 	private connectedAt?: string;
@@ -80,7 +81,7 @@ export class RoomSessionService {
 		this.roomStatus = result.status;
 		return true;
 	}
-	
+
 	public async ensureSignedIn(): Promise<boolean> {
 		const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 		if (sessionError) {
@@ -129,16 +130,18 @@ export class RoomSessionService {
 			const state = this.channel?.presenceState<RoomPresence>() ?? {};
 			this.onlineMembers = this.flattenPresenceState(state);
 			this.logger.debug("presence sync", this.onlineMembers);
+			this.ea.publish("presence:sync");
 		});
 
 		this.channel.on("presence", { event: "join" }, ({ key, newPresences }) => {
 			this.logger.debug("presence join", { key, newPresences });
+			this.ea.publish("presence:join", key);
 		});
 
 		this.channel.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
 			this.logger.debug("presence leave", { key, leftPresences });
+			this.ea.publish("presence:leave", key);
 		});
-
 
 		this.channel.on("postgres_changes",
 			{
@@ -159,6 +162,7 @@ export class RoomSessionService {
 					this.roomStatus = row.status;
 
 					if (this.roomStatus === "pending" || this.roomStatus === "joined") {
+						this.ea.publish("member:update");
 						await this.syncPresence();
 					}
 				}
@@ -196,7 +200,7 @@ export class RoomSessionService {
 			await this.channel.unsubscribe();
 			this.channel = undefined;
 		}
-		
+
 		// if (this.roomId) {
 		// 	void supabase.rpc("leave_lobby", { target_lobby_id: this.roomId }).then(response => {
 		// 	});

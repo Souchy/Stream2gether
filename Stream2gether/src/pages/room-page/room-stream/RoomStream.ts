@@ -18,6 +18,9 @@ export class RoomStream {
 	// 1. Setup the connection configurations (Using Google's free NAT Punching servers)
 	private rtcConfig: RTCConfiguration = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }
 
+	private hoverShowSettings = false;
+	private toggleShowSettings = false;
+
 	//#region Lifecycle
 	public binding() {
 

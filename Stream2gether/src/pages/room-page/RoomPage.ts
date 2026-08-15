@@ -12,6 +12,9 @@ export class RoomPage {
 	private readonly router = resolve(IRouter);
 	private readonly roomService = resolve(RoomSessionService);
 
+	private showMembers = false;
+	private fixedShowMembers = false;
+
 	//#region Lifecycle
 	public async canLoad(params: Params, next: RouteNode, current: RouteNode | null): Promise<boolean> {
 		// const code = typeof params.code === "string" ? params.code : undefined;
@@ -36,5 +39,6 @@ export class RoomPage {
 		return this.roomService.roomStatus;
 	}
 	//#endregion
+
 
 }
