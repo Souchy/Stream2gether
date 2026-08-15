@@ -1,6 +1,6 @@
 import { IRouter, Params, route, RouteNode } from "@aurelia/router";
 import { ILogger, resolve } from "aurelia";
-import { RoomSessionService } from "src/core/services/RoomService";
+import { RoomSessionService } from "src/core/services/RoomSessionService";
 
 @route({
 	id: "room",

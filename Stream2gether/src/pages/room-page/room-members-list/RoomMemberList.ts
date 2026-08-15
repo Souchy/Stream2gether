@@ -1,5 +1,5 @@
 import { resolve } from "aurelia";
-import { RoomPresence, RoomSessionService } from "src/core/services/RoomService";
+import { RoomPresence, RoomSessionService } from "src/core/services/RoomSessionService";
 
 
 export class RoomMemberList {

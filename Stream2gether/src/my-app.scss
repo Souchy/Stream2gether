@@ -9,4 +9,13 @@ my-app {
       margin-left: auto;
     }
   }
+
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  au-viewport {
+    flex: 1 1 auto;
+  }
 }

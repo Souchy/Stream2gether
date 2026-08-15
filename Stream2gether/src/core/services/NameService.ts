@@ -1,6 +1,8 @@
+import { singleton } from "aurelia";
 import { supabase } from "src/main";
 
 
+@singleton()
 export class NameService {
 	public async resolveDisplayName(): Promise<string> {
 		const { data } = await supabase.auth.getUser();

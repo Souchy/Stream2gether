@@ -101,6 +101,7 @@ a.button {
 		}
 	}
 
+	&.outlined-primary,
 	&.outlined-accent {
 		background-color: transparent;
 		color: var(--color-text);

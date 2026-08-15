@@ -1,4 +1,4 @@
-import { ILogger, IObserverLocator, resolve, watch } from "aurelia";
+import { ILogger, IObserverLocator, resolve, singleton, watch } from "aurelia";
 import { INotificationService } from "./NotificationService";
 
 export type StreamSettingsData = {
@@ -8,6 +8,7 @@ export type StreamSettingsData = {
 	audio: boolean,
 }
 
+@singleton()
 export class StreamSettingsService {
 	private readonly logger = resolve(ILogger).scopeTo("StreamSettingsService");
 	private readonly notifications = resolve(INotificationService);
@@ -23,6 +24,17 @@ export class StreamSettingsService {
 	constructor() {
 		this.load();
 		this.setupWatchers();
+	}
+
+	public getDisplayMediaStreamOptions(): DisplayMediaStreamOptions {
+		return {
+			video: {
+				width: { max: this.width },
+				height: { max: this.height },
+				frameRate: { max: this.frameRate }
+			},
+			audio: this.audio // Set to true if you want to attempt capturing system audio
+		}
 	}
 
 	private load() {

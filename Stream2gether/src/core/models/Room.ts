@@ -1,5 +1,7 @@
 
 
+export type LobbyMemberStatus = "pending" | "joined" | "kicked" | "quit";
+
 export type Room = {
 	// id: string,
 	// host_id: string,
@@ -8,6 +10,6 @@ export type Room = {
     host_id: string;
     is_host: boolean;
     requires_approval: boolean;
-    status: "pending" | "joined" | "kicked" | "quit";
+    status: LobbyMemberStatus;
     expires_at: string;
 }

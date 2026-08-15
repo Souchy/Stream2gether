@@ -1,5 +1,5 @@
 // src/services/notification-service.ts
-import { DI, ILogger, resolve } from '@aurelia/kernel';
+import { DI, ILogger, resolve, singleton } from '@aurelia/kernel';
 
 export interface Notification {
   id: string;
@@ -29,6 +29,7 @@ export interface INotificationService {
   clear(): void;
 }
 
+@singleton()
 class NotificationService implements INotificationService {
   private readonly logger = resolve(ILogger);
 

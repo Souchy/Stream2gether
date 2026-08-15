@@ -50,6 +50,14 @@
   flex: 1 1 auto;
 }
 
+.f11a {
+  flex: 1 1 auto;
+}
+
+.f00a {
+  flex: 0 0 auto;
+}
+
 .grid-2 {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -64,12 +72,4 @@
 }
 .align-center {
   align-items: center;
-}
-
-.f11a {
-  flex: 1 1 auto;
-}
-
-.f00a {
-  flex: 0 0 auto;
 }

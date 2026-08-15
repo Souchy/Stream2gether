@@ -1,11 +1,11 @@
 import { RealtimeChannel, RealtimePresenceState } from "@supabase/supabase-js";
-import { IEventAggregator, ILogger, resolve } from "aurelia";
+import { IEventAggregator, ILogger, resolve, singleton } from "aurelia";
 import { INotificationService } from "src/core/services/NotificationService";
 import { supabase } from "src/main";
 import { NameService } from "./NameService";
 import { IRouter } from "@aurelia/router";
-
-export type LobbyMemberStatus = "pending" | "joined" | "kicked";
+import { EventBroadcastSignal, EventLobbyMemberChanged, EventPresenceJoin, EventPresenceLeave, EventPresenceSync, RoomWebRtcService, SignalEnvelope } from "./RoomWebRtcService";
+import { LobbyMemberStatus } from "../models/Room";
 
 export type RoomPresence = {
 	user_id: string;
@@ -15,12 +15,7 @@ export type RoomPresence = {
 	connected_at: string;
 };
 
-type JoinLobbyResult = {
-	lobby_id: string;
-	host_id: string;
-	status: LobbyMemberStatus;
-};
-
+@singleton()
 export class RoomSessionService {
 	private readonly logger = resolve(ILogger).scopeTo("RoomSessionService");
 	private readonly notifications = resolve(INotificationService);
@@ -40,7 +35,7 @@ export class RoomSessionService {
 
 	public onlineMembers: RoomPresence[] = [];
 
-	public get isOwner(): boolean {
+	public get isHost(): boolean {
 		return !!this.currentUserId && !!this.roomHostId && this.currentUserId === this.roomHostId;
 	}
 
@@ -69,7 +64,7 @@ export class RoomSessionService {
 			return false;
 		}
 
-		const result = data?.[0] as JoinLobbyResult | undefined;
+		const result = data?.[0];
 		if (!result) {
 			this.notifications.error("Failed to join room", "No room data returned", 5000);
 			return false;
@@ -108,6 +103,15 @@ export class RoomSessionService {
 		return true;
 	}
 
+	public async sendSignal(signal: SignalEnvelope) {
+		if (!this.channel) return;
+		await this.channel.send({
+			type: "broadcast",
+			event: "signal",
+			payload: signal
+		});
+	}
+
 	public async connect(): Promise<void> {
 		this.displayName ??= await this.names.resolveDisplayName();
 
@@ -129,18 +133,25 @@ export class RoomSessionService {
 		this.channel.on("presence", { event: "sync" }, () => {
 			const state = this.channel?.presenceState<RoomPresence>() ?? {};
 			this.onlineMembers = this.flattenPresenceState(state);
-			this.logger.debug("presence sync", this.onlineMembers);
-			this.ea.publish("presence:sync");
+			// this.logger.debug("presence sync", this.onlineMembers);
+			this.ea.publish(EventPresenceSync);
 		});
 
 		this.channel.on("presence", { event: "join" }, ({ key, newPresences }) => {
-			this.logger.debug("presence join", { key, newPresences });
-			this.ea.publish("presence:join", key);
+			const joined = newPresences as unknown as RoomPresence[];
+			// this.logger.debug("presence join", { key, newPresences });
+			this.ea.publish(EventPresenceJoin, joined);
 		});
 
 		this.channel.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
-			this.logger.debug("presence leave", { key, leftPresences });
-			this.ea.publish("presence:leave", key);
+			const left = leftPresences as unknown as RoomPresence[];
+			// this.logger.debug("presence leave", { key, left });
+			this.ea.publish(EventPresenceLeave, left);
+		});
+
+		this.channel.on("broadcast", { event: "signal" }, ({ payload }) => {
+			// void this.webrtc.handleSignal(this, payload as SignalEnvelope);
+			this.ea.publish(EventBroadcastSignal, payload as SignalEnvelope);
 		});
 
 		this.channel.on("postgres_changes",
@@ -162,7 +173,7 @@ export class RoomSessionService {
 					this.roomStatus = row.status;
 
 					if (this.roomStatus === "pending" || this.roomStatus === "joined") {
-						this.ea.publish("member:update");
+						this.ea.publish(EventLobbyMemberChanged, row);
 						await this.syncPresence();
 					}
 				}
@@ -225,7 +236,7 @@ export class RoomSessionService {
 		await this.channel.track({
 			user_id: this.currentUserId,
 			display_name: this.displayName || "anonymous",
-			role: this.isOwner ? "host" : "viewer",
+			role: this.isHost ? "host" : "viewer",
 			lobby_status: this.roomStatus,
 			connected_at: this.connectedAt,
 		} satisfies RoomPresence);
