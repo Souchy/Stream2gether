@@ -1,0 +1,15 @@
+welcome-page {
+
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	.hostjoin {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+}

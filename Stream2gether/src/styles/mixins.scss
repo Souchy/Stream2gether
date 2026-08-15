@@ -1,0 +1,19 @@
+@mixin scroller {
+  scrollbar-color: var(--accent-color) transparent;
+  scrollbar-width: thin;
+  overflow-y: auto;
+}
+
+@mixin scroller-x {
+  scrollbar-color: var(--accent-color) transparent;
+  scrollbar-width: thin;
+  overflow-x: auto;
+}
+
+
+@mixin no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

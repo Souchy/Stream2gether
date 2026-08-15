@@ -1,5 +1,5 @@
 
-import { WelcomePage } from './welcome-page';
+import { WelcomePage } from './WelcomePage';
 
 const meta = {
   title: 'Pages/WelcomePage',

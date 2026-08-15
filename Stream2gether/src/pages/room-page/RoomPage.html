@@ -1,0 +1,21 @@
+<div switch.bind="roomStatus">
+  <div case="pending">
+    <header>Waiting for host approval...</header>
+    <!-- <header>Waiting for the host approval to join the room</header> -->
+  </div>
+  <div case="joined">
+	<!-- <p>joined</p> -->
+	<room-stream></room-stream>
+	<room-chat></room-chat>
+  </div>
+  <div case="kicked">
+    <header>You got kicked</header>
+    <!-- <button click.trigger="">Go back home</button> -->
+    <a class="button" href="welcome">Go back home</a>
+  </div>
+  <div case="quit">
+    <header>You quit</header>
+	<a class="button" href="room/${roomCode}">Refresh</a>
+    <a class="button" href="welcome">Go back home</a>
+  </div>
+</div>

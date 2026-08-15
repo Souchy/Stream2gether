@@ -1,0 +1,33 @@
+<!-- src/components/notification-container.html -->
+<div class="notification-container">
+  <div
+    repeat.for="notification of notifications"
+    id.bind="notification.id"
+    class="notification notification-${notification.type}">
+
+    <div class="notification-icon">
+      ${getIcon(notification.type)}
+    </div>
+    <div class="notification-content">
+      <div class="notification-title">${notification.title}</div>
+      <div class="notification-message">${notification.message}</div>
+      <!-- Progress bar for auto-dismiss -->
+      <div
+        if.bind="notification.duration > 0"
+        class="notification-progress">
+        <div
+          class="notification-progress-bar"
+          style.width.bind="getProgressWidth(notification) + '%'">
+        </div>
+      </div>
+    </div>
+    <button
+      if.bind="notification.dismissible"
+      type="button"
+      click.trigger="dismiss(notification.id)"
+      class="notification-close"
+      aria-label="Dismiss notification">
+      x
+    </button>
+  </div>
+</div>

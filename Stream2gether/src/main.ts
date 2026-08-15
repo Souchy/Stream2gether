@@ -1,6 +1,10 @@
 import Aurelia, { ConsoleSink, LoggerConfiguration, LogLevel } from 'aurelia';
 import { RouterConfiguration } from '@aurelia/router';
 import { MyApp } from './my-app';
+import { createClient } from '@supabase/supabase-js';
+import { Database } from './core/generated/database.types';
+import { NotificationContainer } from './components/notification-container/NotificationContainer';
+import { INotificationService } from './core/services/NotificationService';
 
 // Aurelia
 //   .register(RouterConfiguration)
@@ -11,6 +15,27 @@ import { MyApp } from './my-app';
 //   .start();
 
 
+
+export const supabase = createClient<Database>(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY, {
+  auth: {
+    // debug: true,
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce',
+    storage: {
+      getItem: (key: string) => {
+        return localStorage.getItem(key);
+      },
+      setItem: (key: string, value: string) => {
+        localStorage.setItem(key, value);
+      },
+      removeItem: (key: string) => {
+        localStorage.removeItem(key);
+      }
+    }
+  },
+});
 
 async function startApp() {
   const au = new Aurelia();
@@ -32,6 +57,10 @@ async function startApp() {
 		historyStrategy: 'push',
 		basePath: '/',
 	}));
+
+  
+  // Registers
+  au.register(NotificationContainer, INotificationService)
 
 
   await au.app(MyApp).start();
