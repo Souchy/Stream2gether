@@ -30,6 +30,11 @@ a.button {
 	width: fit-content;
 	gap: 0.25rem;
 
+	// text for anchors
+	text-decoration: none;
+	line-height: normal;
+	font-size: smaller;
+
 	&:hover {
 		// color: var(--color-primary);
 		// background-color: var(--color-secondary);
@@ -43,6 +48,7 @@ a.button {
 		cursor: not-allowed;
 	}
 
+	// just changes the text color
 	&.ghost {
 		color: var(--color-text);
 		background: none;
@@ -52,16 +58,33 @@ a.button {
 
 		&:hover {
 			color: var(--color-focus);
+			box-shadow: none;
 		}
 	}
 
-	&.highlight {
+	// changes the background to surface-bg
+	&.ghost-surface {
+		color: var(--color-text);
+		background: none;
+
+		margin: 0;
+		cursor: pointer;
+
+		&:hover {
+			background: var(--color-surface-bg);
+			box-shadow: none;
+		}
+	}
+
+	// changes the background to primary
+	&.ghost-primary {
 		background-color: transparent;
 		color: var(--color-text);
 
 		&:hover {
 			color: var(--color-secondary);
 			background-color: var(--color-primary);
+			box-shadow: none;
 		}
 	}
 
@@ -74,6 +97,7 @@ a.button {
 			color: var(--color-secondary);
 			border: 1px solid var(--color-secondary);
 			background-color: var(--color-primary);
+			box-shadow: none;
 		}
 	}
 
@@ -86,6 +110,7 @@ a.button {
 			color: var(--color-secondary);
 			border-color: var(--color-primary);
 			background-color: var(--color-primary);
+			box-shadow: none;
 		}
 	}
 
@@ -98,20 +123,10 @@ a.button {
 			color: var(--color-secondary);
 			border-color: var(--color-focus);
 			background-color: var(--color-focus);
+			box-shadow: none;
 		}
 	}
 
-	&.ghost-surface {
-		color: var(--color-text);
-		background: none;
-
-		margin: 0;
-		cursor: pointer;
-
-		&:hover {
-			background: var(--color-surface-bg);
-		}
-	}
 
 	&.icon {
 		font-size: 0.8rem;

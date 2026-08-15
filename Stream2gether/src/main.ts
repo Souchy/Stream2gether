@@ -5,6 +5,11 @@ import { createClient } from '@supabase/supabase-js';
 import { Database } from './core/generated/database.types';
 import { NotificationContainer } from './components/notification-container/NotificationContainer';
 import { INotificationService } from './core/services/NotificationService';
+import { RoomPage } from './pages/room-page/RoomPage';
+import { RoomStream } from './pages/room-page/room-stream/RoomStream';
+import { RoomMemberList } from './pages/room-page/room-members-list/RoomMemberList';
+import { Splitgrid } from './components/splitgrid/splitgrid';
+import { IdentifyView } from './pages/identify-view/IdentifyView';
 
 // Aurelia
 //   .register(RouterConfiguration)
@@ -61,6 +66,9 @@ async function startApp() {
   
   // Registers
   au.register(NotificationContainer, INotificationService)
+  au.register(Splitgrid);
+  au.register(IdentifyView);
+  au.register(RoomPage, RoomStream, RoomMemberList);
 
 
   await au.app(MyApp).start();

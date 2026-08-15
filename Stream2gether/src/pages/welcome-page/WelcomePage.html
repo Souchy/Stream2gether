@@ -1,37 +1,32 @@
-<!-- 
-
-<div>
-	<button>Host</button>
-	<button>Join</button>
-</div>
-
-<div>
-	<label>Name</label>
-	<input type="text" value.bind="name" />
-	<label>Password</label>
-	<input type="password" value.bind="password" />
-	<button>Enter</button>
-</div> -->
-
-<div>
-	<header class="heading">Welcome</header>
-
-	<identify-view></identify-view>
+<div class="vertical align-center">
+  <header class="heading">Welcome</header>
+  <identify-view></identify-view>
 </div>
 
 <div class="hostjoin">
-	<div class="host surface">
-		<header class="heading">Host a party</header>
-		<p>Host a private stream and invite your friends!</p>
-		<button click.trigger="clickCreateRoom()">Start Room</button>
-	</div>
-	
-	<div class="join surface">
-		<header class="heading">Join a room</header>
-		<p>Got a secret code? Enter it here to join the fun!</p>
-		<div class="horizontal">
-			<input type="text" value.bind="code" />
-			<button click.trigger="clickJoinRoom()">Go!</button>
-		</div>
-	</div>
+  <div class="host surface">
+    <header class="heading">Host a party</header>
+    <p>Host a private stream and invite your friends!</p>
+    <button click.trigger="clickCreateRoom()">Start Room</button>
+  </div>
+
+  <div class="join surface">
+    <header class="heading">Join a room</header>
+    <p>Got a secret code? Enter it here to join the fun!</p>
+    <div class="horizontal">
+      <input type="text" value.bind="code" />
+      <button click.trigger="clickJoinRoom()">Go!</button>
+    </div>
+  </div>
+</div>
+
+<div class="vertical align-center">
+  <header class="heading">Current rooms</header>
+  <div class="rooms vertical">
+    <div class="room horizontal surface" repeat.for="room of rooms">
+      <a class="button" href="/room/${room.code}">${room.code}</a>
+      <div if.bind="room.is_host">Host</div>
+      <div else>${room.status}</div>
+    </div>
+  </div>
 </div>

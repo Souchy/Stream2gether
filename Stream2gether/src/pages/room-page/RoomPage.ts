@@ -5,7 +5,7 @@ import { RoomSessionService } from "src/core/services/RoomService";
 @route({
 	id: "room",
 	path: ["room/:code"],
-	title: 'Room'
+	title: 'Banana Room'
 })
 export class RoomPage {
 	private readonly logger = resolve(ILogger).scopeTo("WelcomePage");
@@ -31,6 +31,9 @@ export class RoomPage {
 
 	public get roomCode() {
 		return this.roomService.roomCode;
+	}
+	public get roomStatus() {
+		return this.roomService.roomStatus;
 	}
 	//#endregion
 

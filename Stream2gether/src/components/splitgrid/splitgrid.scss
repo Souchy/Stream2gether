@@ -1,0 +1,129 @@
+
+@use '../../styles/mixins.scss';
+
+.splitgrid-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 50px;
+  min-height: 50px;
+  overflow: hidden;
+  position: relative;
+}
+
+.splitgrid-container.row {
+  flex-direction: column;
+}
+
+.splitgrid-container.column {
+  flex-direction: row;
+}
+
+.splitgrid-pane {
+  box-sizing: border-box;
+  min-width: 30px;
+  min-height: 30px;
+  overflow: auto;
+  transition: flex-basis 0.1s;
+  display: block;
+}
+
+/* Default gutters for column/row modes (desktop) */
+.splitgrid-container.column>.splitgrid-gutter {
+  width: 8px;
+  cursor: col-resize;
+}
+
+.splitgrid-container.row>.splitgrid-gutter {
+  height: 8px;
+  cursor: row-resize;
+}
+
+.splitgrid-gutter {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 1;
+  flex-shrink: 0;
+  position: relative;
+  background: transparent;
+}
+
+.splitgrid-gutter::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--splitgrid-gutter-color);
+  border-radius: 1em;
+}
+
+.splitgrid-container.column>.splitgrid-gutter::before {
+  width: 2px;
+  height: 20px;
+}
+
+.splitgrid-container.row>.splitgrid-gutter::before {
+  width: 20px;
+  height: 2px;
+}
+
+/* Make gutters easier to touch on mobile - only increases gutter hit area when gutters exist */
+@media (max-width: 600px) {
+  .splitgrid-container.column>.splitgrid-gutter {
+    height: 12px;
+    width: 100%;
+    cursor: row-resize;
+  }
+
+  .splitgrid-container.row>.splitgrid-gutter {
+    height: 12px;
+  }
+
+  .splitgrid-container.column>.splitgrid-gutter::before {
+    width: 20px;
+    height: 2px;
+  }
+}
+
+/* PAGED (mobile swipe) layout overrides
+   This is applied when the host gets .paged (set from JS).
+   Uses native horizontal scrolling with scroll-snap so swiping works naturally.
+*/
+.splitgrid-container.paged {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  /* keep normal row direction */
+  flex-direction: row !important;
+  
+  @include mixins.scroller-x;
+}
+
+/* Each pane becomes a page (full width) when paged */
+.splitgrid-container.paged > .splitgrid-pane {
+  flex: 0 0 100% !important;
+  // flex-basis: 100% !important;
+  max-width: 100%;
+  scroll-snap-align: start;
+  /* hide transitions that may cause jank while swiping */
+  transition: none;
+}
+
+/* Hide gutters when in paged mode */
+.splitgrid-container.paged > .splitgrid-gutter {
+  display: none !important;
+}
+
+/* IMPORTANT: removed the old media-query that forced .column to become column-direction,
+   because responsive behavior is now controlled by mobileBehavior and JS.
+*/
+
+@media (max-width: 600px) {
+  .splitgrid-container.column:not(.paged) {
+    flex-direction: column !important;
+  }
+}

@@ -85,10 +85,23 @@ export type Database = {
         Args: { arg_requires_approval?: boolean }
         Returns: {
           code: string
+          host_id: string
           lobby_id: string
         }[]
       }
       generate_lobby_code: { Args: { p_length?: number }; Returns: string }
+      get_my_active_lobbies: {
+        Args: never
+        Returns: {
+          code: string
+          expires_at: string
+          host_id: string
+          is_host: boolean
+          lobby_id: string
+          requires_approval: boolean
+          status: Database["public"]["Enums"]["lobby_member_status"]
+        }[]
+      }
       join_lobby: {
         Args: { arg_code: string }
         Returns: {
@@ -98,10 +111,6 @@ export type Database = {
         }[]
       }
       leave_lobby: { Args: { target_lobby_id: string }; Returns: undefined }
-      request_to_join_lobby: {
-        Args: { check_password: string; input_code: string }
-        Returns: Record<string, unknown>
-      }
       update_member_status: {
         Args: {
           new_status: string

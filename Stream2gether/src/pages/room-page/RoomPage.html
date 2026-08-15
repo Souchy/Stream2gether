@@ -3,10 +3,16 @@
     <header>Waiting for host approval...</header>
     <!-- <header>Waiting for the host approval to join the room</header> -->
   </div>
-  <div case="joined">
-	<!-- <p>joined</p> -->
-	<room-stream></room-stream>
-	<room-chat></room-chat>
+  <div case="joined" class="horizontal">
+	
+    <splitgrid id="room-page-main" mode="column" default-sizes.bind="[80, 20]">
+      <room-stream></room-stream>
+      <div class="vertical">
+        <room-member-list></room-member-list>
+        <room-chat></room-chat>
+      </div>
+    </splitgrid>
+	
   </div>
   <div case="kicked">
     <header>You got kicked</header>
@@ -15,7 +21,7 @@
   </div>
   <div case="quit">
     <header>You quit</header>
-	<a class="button" href="room/${roomCode}">Refresh</a>
+    <a class="button" href="room/${roomCode}">Refresh</a>
     <a class="button" href="welcome">Go back home</a>
   </div>
 </div>

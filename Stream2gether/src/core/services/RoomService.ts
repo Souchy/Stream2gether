@@ -37,18 +37,18 @@ export class RoomSessionService {
 	public currentUserId?: string;
 	public displayName?: string;
 
-	public onlineUsers: RoomPresence[] = [];
+	public onlineMembers: RoomPresence[] = [];
 
 	public get isOwner(): boolean {
 		return !!this.currentUserId && !!this.roomHostId && this.currentUserId === this.roomHostId;
 	}
 
 	public get onlineViewerCount(): number {
-		return this.onlineUsers.filter(x => x.role === "viewer").length;
+		return this.onlineMembers.filter(x => x.role === "viewer").length;
 	}
 
 	public get hostOnline(): boolean {
-		return this.onlineUsers.some(x => x.user_id === this.roomHostId);
+		return this.onlineMembers.some(x => x.user_id === this.roomHostId);
 	}
 
 
@@ -127,8 +127,8 @@ export class RoomSessionService {
 
 		this.channel.on("presence", { event: "sync" }, () => {
 			const state = this.channel?.presenceState<RoomPresence>() ?? {};
-			this.onlineUsers = this.flattenPresenceState(state);
-			this.logger.debug("presence sync", this.onlineUsers);
+			this.onlineMembers = this.flattenPresenceState(state);
+			this.logger.debug("presence sync", this.onlineMembers);
 		});
 
 		this.channel.on("presence", { event: "join" }, ({ key, newPresences }) => {
@@ -176,7 +176,7 @@ export class RoomSessionService {
 				this.logger.debug("lobbies changed", payload);
 
 				if (payload.eventType === "DELETE") {
-					this.notifications.info("Room closed", "The room was closed by the host.", 3);
+					this.notifications.info("Room closed", "The room was closed by the host.", 3000);
 					// navigate back to main page
 					this.router.load("welcome");
 				}
@@ -202,7 +202,7 @@ export class RoomSessionService {
 		// 	});
 		// }
 
-		this.onlineUsers = [];
+		this.onlineMembers = [];
 		this.connectedAt = undefined;
 	}
 	//#endregion
