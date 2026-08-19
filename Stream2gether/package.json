@@ -43,6 +43,7 @@
     "pretest": "npm run lint",
     "supabase": "npx supabase gen types typescript --project-id \"ohhxagbirddarmmispct\" --schema public > src/core/generated/database.types.ts",
     "start": "vite",
+    "app": "vite",
     "build": "vite build",
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
