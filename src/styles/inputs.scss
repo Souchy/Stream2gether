@@ -1,0 +1,65 @@
+select,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+	background: none;
+	color: var(--color-text);
+	border: none; // 1px solid transparent;
+	border-bottom: 1px solid;
+	border-color: var(--color-primary);
+	// padding: 0.4rem;
+	// border: 1px solid var(--input-border-color);
+	// border-radius: 4px;
+	// font-size: 0.95rem;
+	// font-size: 1rem;
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-focus);
+	}
+
+	&.invalid {
+		border-color: var(--error);
+		// box-shadow: 0 0 0 1px rgba(178, 59, 59, 0.25);
+	}
+
+	padding: 0.3rem;
+	margin-bottom: 0.5rem;
+}
+
+input[type="number"] {
+	width: 100%;
+	color: var(--color-text);
+	background-color: transparent;
+	padding-left: 0.25rem;
+	border-radius: var(--input-border-radius);
+	border: 1px solid;
+	border-color: var(--color-primary);
+	font-family: monospace;
+}
+
+label:has(input[type="checkbox"]) {
+	padding: 0.3rem 0;
+	margin-bottom: 0.5rem;
+}
+
+select {
+	width: 100%;
+	padding: 0.3rem 0rem;
+	padding-right: 1rem;
+
+	option {
+		background-color: var(--color-background);
+		color: var(--color-text);
+		padding: 0;
+
+		&:focus,
+		&:hover,
+		&:active,
+		&:checked {
+			background-color: var(--color-primary);
+			color: var(--color-secondary);
+		}
+	}
+}

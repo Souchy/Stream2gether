@@ -1,0 +1,3 @@
+# TODO
+
+- webrtc blocky artifacts

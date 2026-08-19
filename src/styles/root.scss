@@ -1,0 +1,131 @@
+@use './inputs.scss';
+@use './buttons.scss';
+@use './context_menu.scss';
+@use './fonts.scss';
+@use './general.scss';
+@use './mixins.scss';
+@use './helpers.scss';
+// @use "./dialog.scss";
+
+@use './themes.scss';
+// @use "./viewport.scss";
+// @use './form.scss';
+
+// @use "../components/splitgrid/splitgrid.scss";
+$themes: (
+	light: (
+		background: #FDFCDC,
+		text: #1a1a1a,
+		primary: #fde047,
+		primary-shadow: #8a33246e,
+		secondary: #5d4037,
+		tertiary: #FBEC5D,
+		surface-text: #1a1a1a,
+		surface-bg: #fff6a981, // #f7ed9a,
+		bananacream: #FBEC5D,
+		chestnut: #8A3324,
+		espresso: #592720,
+		focus: #8A3324,
+	),
+	dark: (
+		background: #121212,
+		text: #f5f5f5,
+		primary: #fde047,
+		primary-shadow: #b1a540a1,
+		secondary: #330f0b,
+		tertiary: #FBEC5D,
+		surface-text: #f5f5f5,
+		surface-bg: #1f1f1f,
+		bananacream: #FBEC5D,
+		chestnut: #8A3324,
+		espresso: #592720,
+		focus: #8A3324,
+	),
+	peach: ( // https://coolors.co/fffbfe-ed254e-395c6b-230c33-9b7e46
+		a: #fffbfe,
+		b: #ed254e,
+		c: #395c6b,
+		d: #230c33,
+		e: #9b7e46,
+
+	),
+	greenery: ( // https://coolors.co/3c493f-7e8d85-b3bfb8-f0f7f4-a2e3c4
+		a: #3c493f,
+		b: #7e8d85,
+		c: #b3bfb8,
+		d: #f0f7f4,
+		e: #a2e3c4,
+
+	)
+);
+
+
+:root {
+	color-scheme: light dark; // Signals theme support to the browser
+
+	@each $name, $value in map-get($themes, light) {
+		--color-#{$name}: #{$value};
+	}
+
+	// --primary: #fde047;
+	// --secondary: #5d4037;
+	// --tertiary: #fff9c4;
+	// --neutral: #fdfbf7;
+	// --surface: #fbf9f5;
+
+	// --bg-color: #11121a;
+	// --accent-color: #fde047;
+	// --text-color: var(--neutral);
+	// --text-on-accent-color: var(--secondary);
+
+	// --color-focus: var(--primary);
+	--input-border-radius: 0.25rem;
+	// --input-padding: 0.5rem;
+	// --topbar-height: 1.5rem;
+	// --error: #b23b3b;
+	// --ahead: rgb(92, 141, 92);
+	// --behind: rgb(180, 86, 75);
+
+	// --error-color: #b23b3b;
+	// --warning-color: rgb(180, 147, 75);
+	// --success-color: rgb(92, 141, 92);
+	// --info-color: rgb(86, 126, 163);
+}
+
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: system-ui, Arial;
+	overflow-x: hidden;
+	overflow-y: hidden;
+
+	color: var(--color-text);
+	background-color: var(--color-background);
+	// font-size: 0.8rem;
+}
+
+// 3. Override variables for Dark Mode (Handles OS system settings)
+@media (prefers-color-scheme: dark) {
+	:root {
+		@each $name, $value in map-get($themes, dark) {
+			--color-#{$name}: #{$value};
+		}
+	}
+}
+
+// 4. Override variables via HTML class (For manual JavaScript toggle switches)
+[data-theme="dark"],
+.dark-theme {
+	@each $name, $value in map-get($themes, dark) {
+		--color-#{$name}: #{$value};
+	}
+}
+
+[data-theme="light"],
+.light-theme {
+	@each $name, $value in map-get($themes, light) {
+		--color-#{$name}: #{$value};
+	}
+}

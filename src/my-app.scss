@@ -1,0 +1,22 @@
+my-app {
+  .top-btns {
+    // position: fixed;
+    // top: 0.5rem;
+    // left: 0.5rem;
+    margin: 0.5rem;
+
+    #topbar-additional-buttons {
+      margin-left: auto;
+    }
+  }
+
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  au-viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}

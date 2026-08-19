@@ -1,0 +1,136 @@
+@use './mixins.scss';
+
+// button {
+// 	background-color: transparent;
+// 	border: 1px solid black;
+// 	border-radius: 0rem;
+// 	padding: 0.5rem;
+
+// 	&:hover {
+// 		transition: background-color 0.2s ease-in-out;
+// 		background-color: rgb(207, 207, 207);
+// 	}
+// }
+
+button,
+a.button {
+	@include mixins.no-select; // maybe?
+
+	color: var(--color-secondary);
+	background-color: var(--color-primary);
+
+	// border: 1px solid transparent;
+	border: none;
+	border-radius: var(--input-border-radius);
+	padding: 0.5rem;
+	cursor: pointer;
+
+	display: flex;
+	align-items: center; // align content vertically
+	width: fit-content;
+	gap: 0.25rem;
+
+	// text for anchors
+	text-decoration: none;
+	line-height: normal;
+	font-size: smaller;
+
+	&:hover {
+		// color: var(--color-primary);
+		// background-color: var(--color-secondary);
+		background-color: var(--color-tertiary);
+		box-shadow: 0px 1px 2px 1px var(--color-primary-shadow);
+		// border: 1px solid var(--color-chestnut);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	// just changes the text color
+	&.ghost {
+		color: var(--color-text);
+		background: none;
+
+		margin: 0;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--color-focus);
+			box-shadow: none;
+		}
+	}
+
+	// changes the background to surface-bg
+	&.ghost-surface {
+		color: var(--color-text);
+		background: none;
+
+		margin: 0;
+		cursor: pointer;
+
+		&:hover {
+			background: var(--color-surface-bg);
+			box-shadow: none;
+		}
+	}
+
+	// changes the background to primary
+	&.ghost-primary {
+		background-color: transparent;
+		color: var(--color-text);
+
+		&:hover {
+			color: var(--color-secondary);
+			background-color: var(--color-primary);
+			box-shadow: none;
+		}
+	}
+
+	&.outlined {
+		background-color: transparent;
+		color: var(--color-text);
+		border: 1px solid var(--color-text);
+
+		&:hover {
+			color: var(--color-secondary);
+			border: 1px solid var(--color-secondary);
+			background-color: var(--color-primary);
+			box-shadow: none;
+		}
+	}
+
+	&.outlined-primary,
+	&.outlined-accent {
+		background-color: transparent;
+		color: var(--color-text);
+		border: 1px solid var(--color-primary);
+
+		&:hover {
+			color: var(--color-secondary);
+			border-color: var(--color-primary);
+			background-color: var(--color-primary);
+			box-shadow: none;
+		}
+	}
+
+	&.outlined-focus {
+		background-color: transparent;
+		color: var(--color-text);
+		border: 1px solid var(--color-focus);
+
+		&:hover {
+			color: var(--color-secondary);
+			border-color: var(--color-focus);
+			background-color: var(--color-focus);
+			box-shadow: none;
+		}
+	}
+
+
+	&.icon {
+		font-size: 0.8rem;
+	}
+
+}

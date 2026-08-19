@@ -1,0 +1,75 @@
+@use './mixins.scss';
+
+.tauri-drag-region {
+  // Tauri draggable region
+  app-region: drag;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.scroller {
+  @include mixins.scroller;
+}
+
+.no-select {
+  @include mixins.no-select;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.h0 {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.v0 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.filler {
+  flex: 1 1 auto;
+}
+
+.f11a {
+  flex: 1 1 auto;
+}
+
+.f00a {
+  flex: 0 0 auto;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1rem;
+}
+
+.justify-center {
+  justify-content: center;
+}
+.text-center {
+  text-align: center;
+}
+.align-center {
+  align-items: center;
+}
