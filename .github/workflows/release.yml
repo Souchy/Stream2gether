@@ -33,6 +33,7 @@ jobs:
             #- run: npm test
 
             - run: npm install
+
             - name: Build Aurelia
               run: |
                   npm run build
@@ -41,4 +42,4 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: "/home/runner/work/Stream2gether/Stream2gether/dist"
+                  publish_dir: "dist"
