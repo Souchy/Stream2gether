@@ -28,6 +28,12 @@ jobs:
             #- run: npm test
 
             - name: Build Aurelia
+              env:
+                  VITE_BASE: ${{ vars.VITE_BASE }}
+                  VITE_NODE_ENV: ${{ vars.VITE_NODE_ENV }}
+                  VITE_SUPABASE_KEY: ${{ vars.VITE_SUPABASE_KEY }} # Highly recommended to move this to SECRETS instead of variables!
+                  VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+                  VITE_TITLE: ${{ vars.VITE_TITLE }}
               run: npm run build
 
             - name: Deploy to branch
