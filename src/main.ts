@@ -13,16 +13,6 @@ import { IdentifyView } from './pages/identify-view/IdentifyView';
 import { StreamSettings } from './pages/room-page/room-stream/stream-settings/StreamSettings';
 import { StreamSettingsService } from './core/services/StreamSettingsService';
 
-// Aurelia
-//   .register(RouterConfiguration)
-//   // To use HTML5 pushState routes, replace previous line with the following
-//   // customized router config.
-//   // .register(RouterConfiguration.customize({ useUrlFragmentHash: false }))
-//   .app(MyApp)
-//   .start();
-
-
-
 export const supabase = createClient<Database>(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY, {
   auth: {
     // debug: true,
@@ -48,30 +38,28 @@ async function startApp() {
   const au = new Aurelia();
 
   // Logger for development
-  // if (import.meta.env.VITE_NODE_ENV !== 'production') {
-  const logger = LoggerConfiguration.create({
-    level: LogLevel.debug,
-    colorOptions: 'colors',
-    sinks: [ConsoleSink]
-  });
-  au.register(logger);
-  // }
+  if (import.meta.env.VITE_NODE_ENV !== 'production') {
+    const logger = LoggerConfiguration.create({
+      level: LogLevel.debug,
+      colorOptions: 'colors',
+      sinks: [ConsoleSink]
+    });
+    au.register(logger);
+  }
 
-	// Router
-	au.register(RouterConfiguration.customize({
-		useNavigationModel: true,
-		useUrlFragmentHash: false,
-		historyStrategy: 'push',
-		basePath: '/',
-	}));
+  // Router
+  au.register(RouterConfiguration.customize({
+    useNavigationModel: true,
+    useUrlFragmentHash: false,
+    historyStrategy: 'push',
+    basePath: import.meta.env.VITE_BASE,
+  }));
 
-  
   // Registers
   au.register(NotificationContainer, INotificationService)
   au.register(Splitgrid);
   au.register(IdentifyView);
   au.register(RoomPage, RoomMemberList, RoomMemberList, RoomStream, StreamSettings, StreamSettingsService);
-
 
   await au.app(MyApp).start();
 }

@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @use './inputs.scss';
 @use './buttons.scss';
 @use './context_menu.scss';
@@ -63,7 +65,7 @@ $themes: (
 :root {
 	color-scheme: light dark; // Signals theme support to the browser
 
-	@each $name, $value in map-get($themes, light) {
+	@each $name, $value in map.get($themes, light) {
 		--color-#{$name}: #{$value};
 	}
 
@@ -109,7 +111,7 @@ body {
 // 3. Override variables for Dark Mode (Handles OS system settings)
 @media (prefers-color-scheme: dark) {
 	:root {
-		@each $name, $value in map-get($themes, dark) {
+		@each $name, $value in map.get($themes, dark) {
 			--color-#{$name}: #{$value};
 		}
 	}
@@ -118,14 +120,14 @@ body {
 // 4. Override variables via HTML class (For manual JavaScript toggle switches)
 [data-theme="dark"],
 .dark-theme {
-	@each $name, $value in map-get($themes, dark) {
+	@each $name, $value in map.get($themes, dark) {
 		--color-#{$name}: #{$value};
 	}
 }
 
 [data-theme="light"],
 .light-theme {
-	@each $name, $value in map-get($themes, light) {
+	@each $name, $value in map.get($themes, light) {
 		--color-#{$name}: #{$value};
 	}
 }
