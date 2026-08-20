@@ -4,6 +4,7 @@ import { supabase } from "src/main";
 import { INotificationService } from "src/core/services/NotificationService";
 import { Room } from "src/core/models/Room";
 import { NameService } from "src/core/services/NameService";
+import { RoomSessionService } from "src/core/services/RoomSessionService";
 
 @route({
 	id: 'welcome',
@@ -14,6 +15,7 @@ export class WelcomePage {
 	private readonly logger = resolve(ILogger).scopeTo("WelcomePage");
 	private readonly router: IRouter = resolve(IRouter);
 	private readonly notifications = resolve(INotificationService);
+	private readonly roomSession = resolve(RoomSessionService);
 
 	public code: string = "";
 	private checkRoomsInterval?: number;
@@ -37,6 +39,8 @@ export class WelcomePage {
 	}
 
 	public async clickCreateRoom() {
+		await this.roomSession.ensureSignedIn();
+
 		let response = await supabase.rpc("create_lobby");
 		if (response.success) {
 			const data = response.data[0];
