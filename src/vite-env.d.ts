@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_NODE_ENV: string
   readonly VITE_SUPABASE_URL: string
   readonly VITE_SUPABASE_KEY: string
+  readonly VITE_USE_HASH: boolean
 }
 
 interface ImportMeta {

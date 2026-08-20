@@ -50,7 +50,7 @@ async function startApp() {
   // Router
   au.register(RouterConfiguration.customize({
     useNavigationModel: true,
-    useUrlFragmentHash: false,
+    useUrlFragmentHash: import.meta.env.VITE_USE_HASH,
     historyStrategy: 'push',
     basePath: import.meta.env.VITE_BASE,
   }));
